@@ -15,5 +15,5 @@ class BillEntity(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     user = db.relationship("UserEntity", back_populates="bill")
     
-    # def start_mapper():
-    #     mapper(BillDTO, BillEntity)
+    def start_mapper():
+        mapper(BillDTO, BillEntity)

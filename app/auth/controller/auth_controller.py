@@ -8,6 +8,33 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/", methods=["POST"])
 def login():
+    """Login del user
+    ---
+    tags: 
+        - Login
+        
+    parameters:
+      - name: body
+        in: body
+        required: tru 
+        schema:
+          $ref: '#/definitions/UserInfo' 
+            
+    definitions:
+        UserInfo:
+          type: object
+          properties:
+            username:
+              type: string
+            passw:
+              type: string
+                
+    responses:
+      200:
+        description: Login del user
+        schema:
+          $ref: '#/definitions/UserInfo'
+    """
     try:
         data = request.get_json()
         user = (db.session.query(UserEntity)
