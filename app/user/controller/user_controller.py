@@ -9,10 +9,6 @@ from ..service.user_service import (
 
 user = Blueprint("user", __name__)
 
-@user.before_request
-def check_token():
-  if not verify_jwt_in_request():
-    return jsonify({"msg":"there is no token in the request"}),401
 
 @user.route("/register", methods=["POST"])
 def register():
