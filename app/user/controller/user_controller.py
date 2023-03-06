@@ -16,16 +16,17 @@ def check_token():
 
 @user.route("/register", methods=["POST"])
 def register():
-  """Registro de personas
+    """Registro de personas
     --- 
     tags: 
         - User
         
-    - name: body
-      in: body
-      required: tru 
-      schema:
-      $ref: '#/definitions/userAccess'  
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/userAccess'  
         
     definitions:
         userAccess:
@@ -35,14 +36,16 @@ def register():
               type: string
             password:
               type: string
+            email:
+              type: string
                 
     responses:
       200:
         description: Registrar de persona
         
     """
-  data = request.get_json()
-  return register_user(data)
+    data = request.get_json()
+    return register_user(data)
 
 @user.route("/<user>/bills", methods=["GET"])
 @jwt_required()
