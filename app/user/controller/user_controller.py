@@ -16,6 +16,31 @@ def check_token():
 
 @user.route("/register", methods=["POST"])
 def register():
+  """Registro de personas
+    --- 
+    tags: 
+        - User
+        
+    - name: body
+      in: body
+      required: tru 
+      schema:
+      $ref: '#/definitions/userAccess'  
+        
+    definitions:
+        userAccess:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+                
+    responses:
+      200:
+        description: Registrar de persona
+        
+    """
   data = request.get_json()
   return register_user(data)
 
