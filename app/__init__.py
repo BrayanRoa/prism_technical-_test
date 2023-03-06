@@ -6,7 +6,7 @@ from flask_cors import CORS
 from .user.controller.user_controller import user
 from .auth.controller.auth_controller import auth
 
-prefix="/api/v1"
+prefix="/prisma.dev"
 
 def create_app(settings_module):
     app = Flask(__name__)
