@@ -1,4 +1,7 @@
 from app.db import db
+from sqlalchemy.orm import mapper
+from ..model.user_dto import UserDTO
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class UserEntity(db.Model):
@@ -12,3 +15,9 @@ class UserEntity(db.Model):
     
     bill = db.relationship("BillEntity", back_populates="user")
     
+    def start_mapper():
+        mapper(UserDTO, UserEntity)
+        
+    @classmethod    
+    def check_password(self, hashed_password, password):
+        return check_password_hash(hashed_password, password)

@@ -1,13 +1,26 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, verify_jwt_in_request
 from ..service.user_service import (
     get_all_bills_of_user,
     save_bill_of_user,
-    get_bill_id_of_user
+    get_bill_id_of_user,
+    register_user
 )
 
 user = Blueprint("user", __name__)
 
+@user.before_request
+def check_token():
+  if not verify_jwt_in_request():
+    return jsonify({"msg":"there is no token in the request"}),401
+
+@user.route("/register", methods=["POST"])
+def register():
+  data = request.get_json()
+  return register_user(data)
+
 @user.route("/<user>/bills", methods=["GET"])
+@jwt_required()
 def getAll(user):
     """Listar todas las bills de un usuario
     --- 
@@ -55,6 +68,7 @@ def getAll(user):
         return {"msg":e.args}
 
 @user.route("/<user>/bills", methods=["POST"])
+@jwt_required()
 def saveBill(user):
     """Registro de un ingreso o un egreso del user
     --- 
@@ -66,7 +80,7 @@ def saveBill(user):
         in: path
         type: string
         required: true
-        description: 1 para ingreso 2 para egreso
+        description: username
       - name: body
         in: body
         required: tru 
@@ -94,6 +108,7 @@ def saveBill(user):
 
 
 @user.route("/<user>/bills/<bill_id>", methods=["GET"])
+@jwt_required()
 def getOneBill(user, bill_id):
     """obtener bill de un usuario
     ---
@@ -137,6 +152,7 @@ def getOneBill(user, bill_id):
 
 
 @user.route("/<user>/bills/<bill_id>", methods=["DELETE"])
+@jwt_required()
 def deleteOneBill(user, bill_id):
     """Eliminar un bill del user
     --- 

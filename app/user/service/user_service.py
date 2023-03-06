@@ -7,21 +7,37 @@ from ..entity.bill_entity import BillEntity
 from ..schema.user_schema import user_schema
 from ..schema.bill_schema import bill_schema
 from ..model.bill_dto import BillDTO
+from ..model.user_dto import UserDTO
 
 BillEntity.start_mapper()
+UserEntity.start_mapper()
 
+def register_user(data):
+    try:
+        db.session.add(UserDTO(
+            email=data["email"],
+            usernama=data["username"],
+            passw=data["password"]
+        ))
+        db.session.commit()
+        return {"msg":"user created successfully"}, 201
+    except Exception as e:
+        return {"error":e.args}
 
 def get_all_bills_of_user(username):
-    try:
-        user = db.session.query(UserEntity).filter(UserEntity.username == username).one()
-        result = user_schema.dump(user)
+    user = db.session.query(UserEntity).filter(UserEntity.username == username).all()
+    if len(user) == 1:
+        result = user_schema.dump(user[0])
         return result
-    except NoResultFound:
-        raise ValueError(f"there is no person with username {username}")
+    return {"error":f"there is no person with username {username}", "code":404}
+
 
 def save_bill_of_user(user, data):
     try:
         info_user = get_all_bills_of_user(user)
+        print(info_user)
+        if "code" in info_user:
+            return {"error":f"there is no person with username {user}"}, 404
         bill = bill_schema.load(data)
         db.session.add(
             BillDTO(
@@ -50,6 +66,8 @@ def save_bill_of_user(user, data):
 def get_bill_id_of_user(user, bill_id, request):
     try:
         info_user = get_all_bills_of_user(user)
+        if "code" in info_user:
+            return {"error":f"there is no person with username {user}"}, 404
         bill = (
             db.session.query(BillEntity)
             .filter(BillEntity.user_id == info_user["id"], BillEntity.id == bill_id)
@@ -62,5 +80,3 @@ def get_bill_id_of_user(user, bill_id, request):
         return bill_schema.dump(bill)
     except NoResultFound:
         return {"msg": "check the bill's id or username"}, 404
-    except Exception as error:
-        return {"error": error.args}, 400

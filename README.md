@@ -1,7 +1,6 @@
 ## Management and control system
 
 
-
 1. Clone the repository
 2. create your virtual environment
 3. install the necessary libraries that are in the archive ```requirements.txt```

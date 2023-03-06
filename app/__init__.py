@@ -23,7 +23,7 @@ def create_app(settings_module):
                            'with Python.',
         },
         "host": host,
-        "schemes":["https"],
+        "schemes":["https","http"],
         "securityDefinitions": {
             "Bearer": {
                 "type": "apiKey",

@@ -1,8 +1,8 @@
 from app.db import db
-from flask import Blueprint, request
-from sqlalchemy.exc import NoResultFound 
+from flask import Blueprint, request, jsonify
 from ...user.entity.user_entity import UserEntity
 from ...user.schema.user_schema import user_schema
+from flask_jwt_extended import create_access_token
 
 auth = Blueprint("auth", __name__)
 
@@ -26,7 +26,7 @@ def login():
           properties:
             username:
               type: string
-            passw:
+            password:
               type: string
                 
     responses:
@@ -36,19 +36,19 @@ def login():
           $ref: '#/definitions/UserInfo'
     """
     try:
-        data = request.get_json()
-        user = (db.session.query(UserEntity)
-                .filter(
-                    UserEntity.username == data["username"],
-                    UserEntity.passw == data["passw"])
-                ).one()
-        result = user_schema.dump(user)
-        return {
-            "login":True,
-            "username":result["username"],
-            "email":result["email"],
-            "mensaje":"Welcome"}
-    except NoResultFound:
-        return {"login":False, "mensaje":"Usuario o contraseña invalido"}
+      data = (
+        db.session.query(UserEntity)
+        .filter(UserEntity.username == request.json["username"])
+        .one())
+      if not UserEntity.check_password(data.passw, request.json["password"]):
+        return {"login":False, "mensaje":"invalid username or password"}
+      result = user_schema.dump(data)
+      return {
+        "login":True, 
+        "access-token":create_access_token(identity=result["email"])
+        # "username":result["username"], 
+        # "email":result["email"], 
+        # "mensaje":"Welcome"
+      }
     except Exception as e:
-        return {"error":e.args}
+      return jsonify({"error":e.args})
