@@ -14,6 +14,7 @@ def create_app(settings_module):
     app.config.from_object(settings_module)
     host = app.config.get("SITE_HOST")
     
+    # TODO: ACOMODAR
     swagger_template = {
         "info": {
             'title': 'Api Python Test',
@@ -22,7 +23,7 @@ def create_app(settings_module):
                            'with Python.',
         },
         "host": host,
-        "schemes":["http" , "https"],
+        "schemes":["https"],
         "securityDefinitions": {
             "Bearer": {
                 "type": "apiKey",
