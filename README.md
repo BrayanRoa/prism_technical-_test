@@ -47,8 +47,7 @@ in this project, the rest architecture was used to design the api that allows th
 
 this architecture was chosen because it allows high scalability and flexibility, since new resources and functionalities can be added without affecting the general structure of the system.
 
-![Architecture]( "Architecture diagram")
-
+![Architecture](https://github.com/BrayanRoa/prism_technical-_test/blob/main/architecture.jpg?raw=true "Architecture")
 
 This project is divided into two modules, users and authentication, the auth module is in charge of validating the input information of each of the users that are registered in the system.
 
