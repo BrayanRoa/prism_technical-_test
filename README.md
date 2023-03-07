@@ -77,6 +77,7 @@ The user module is in charge of the administration of each and every one of the 
 * Schema: Within Marshmallow, a "schema" refers to a class that defines the structure of an object to be serialized or deserialized. A Marshmallow schema is used to specify the fields to include in a serialized object and to validate the data that is used to create an object.
 
 * Models: DTOs are a way to encapsulate data and reduce coupling between different parts of an application. Instead of passing domain objects or entire entities between application layers, DTOs are used to transfer only the necessary data.
+
 # Stack
 
 <p align="center">
