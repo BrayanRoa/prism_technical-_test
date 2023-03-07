@@ -11,6 +11,5 @@ class UserSchema(ma.Schema):
     bill = fields.Nested("BillSchema" ,many=True, exclude=("user_id",))
     
 user_schema = UserSchema(exclude=("passw",))
-user_schema_without_info_person = UserSchema(only=("bill",))
 list_user_schema = UserSchema(many=True)
     

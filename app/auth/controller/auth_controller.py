@@ -8,7 +8,7 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/", methods=["POST"])
 def login():
-    """Login del user
+    """Login of user
     ---
     tags: 
         - Login
@@ -31,7 +31,7 @@ def login():
                 
     responses:
       200:
-        description: Login del user
+        description: Login successfully
         schema:
           $ref: '#/definitions/UserInfo'
     """
@@ -41,14 +41,11 @@ def login():
         .filter(UserEntity.username == request.json["username"])
         .one())
       if not UserEntity.check_password(data.passw, request.json["password"]):
-        return {"login":False, "mensaje":"invalid username or password"}
+        return {"login":False, "message":"invalid username or password"}
       result = user_schema.dump(data)
       return {
         "login":True, 
-        "access-token":create_access_token(identity=result["email"])
-        # "username":result["username"], 
-        # "email":result["email"], 
-        # "mensaje":"Welcome"
+        "access-token":"Bearer " + create_access_token(identity=result["email"])
       }
     except Exception as e:
       return jsonify({"error":e.args})

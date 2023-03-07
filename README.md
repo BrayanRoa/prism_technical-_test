@@ -1,11 +1,20 @@
-## Management and control system
+# Management and control system
 
+As a support for its employees, Prisma has considered developing a management and control system for expenses so they can control their monthly budget. For which it is requested to develop the Back-end layer services using the necessary technologies (you can use the technology that better drive, but preferably Python 🐍).
+
+## Steps needed to run the project
 
 1. Clone the repository
-2. create your virtual environment
+2. create your virtual environment 
+  
+  ```
+  virtualenv venv
+  ```
 3. install the necessary libraries that are in the archive ```requirements.txt```
 
-* __pip install -r requirements.txt__
+  ```
+  pip install -r requirements.txt
+  ```
 
 4. Environment Variables 🚧
 
@@ -13,16 +22,37 @@ copy the variables that are in the ```.env.example``` file and create a file cal
 
 5. enter the following commands
 
-* __export FLASK_APP=entrypoint__
-* __export FLASK_DEBUG=1__
-* __flask run__
+```
+export FLASK_APP=entrypoint
+```
+```
+export FLASK_DEBUG=1
+```
+```
+flask run
+```
 
-6. You can access the api documentation here:
+6. You can access the documentation in the following links:
 
 ```
 http:localhost:5000/apidocs
 ```
+```
+https://web-production-7cec.up.railway.app/apidocs/
+```
 
+## Architecture
+
+in this project, the rest architecture was used to design the api that allows the different parts of the system to communicate with each other. for this, a set of identifiable resources was defined, each with its own unique url, and it was defined how these resources could be manipulated through different http methods (get, post, put, delete).
+
+this architecture was chosen because it allows high scalability and flexibility, since new resources and functionalities can be added without affecting the general structure of the system.
+
+![Architecture]( "Architecture diagram")
+
+
+This project is divided into two modules, users and authentication, the auth module is in charge of validating the input information of each of the users that are registered in the system.
+
+The user module is in charge of the administration of each and every one of the bills that each user has, this administration is possible thanks to the implementation of the http verbs (get, post, put, delete)
 # Stack
 
 <p align="center">

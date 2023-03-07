@@ -14,16 +14,14 @@ def create_app(settings_module):
     app.config.from_object(settings_module)
     host = app.config.get("SITE_HOST")
     
-    # TODO: ACOMODAR
     swagger_template = {
         "info": {
-            'title': 'Api Python Test',
+            'title': 'Management and control system - digital prism',
             'version': '0.1',
             'description': 'This document contains the list of API services '
-                           'with Python.',
         },
         "host": host,
-        "schemes":["https","http"],
+        "schemes":["https"],
         "securityDefinitions": {
             "Bearer": {
                 "type": "apiKey",

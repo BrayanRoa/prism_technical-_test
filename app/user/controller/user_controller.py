@@ -12,7 +12,7 @@ user = Blueprint("user", __name__)
 
 @user.route("/register", methods=["POST"])
 def register():
-    """Registro de personas
+    """Register user
     --- 
     tags: 
         - User
@@ -37,7 +37,7 @@ def register():
                 
     responses:
       200:
-        description: Registrar de persona
+        description: Register user
         
     """
     data = request.get_json()
@@ -46,7 +46,7 @@ def register():
 @user.route("/<user>/bills", methods=["GET"])
 @jwt_required()
 def getAll(user):
-    """Listar todas las bills de un usuario
+    """Get all bills of a user
     --- 
     tags: 
         - User
@@ -84,17 +84,17 @@ def getAll(user):
                 
     responses:
       200:
-        description: Listado de bills
+        description: get all bills of a user
     """
     try:
         return get_all_bills_of_user(user)
-    except Exception as e   :
+    except Exception as e:
         return {"msg":e.args}
 
 @user.route("/<user>/bills", methods=["POST"])
 @jwt_required()
 def saveBill(user):
-    """Registro de un ingreso o un egreso del user
+    """Registration of an entry or exit of the user
     --- 
     tags: 
         - User
@@ -124,7 +124,7 @@ def saveBill(user):
                 
     responses:
       201:
-        description: Registrar un ingreso o egreso 
+        description: Registration of an entry or exit of the user 
         
     """
     data = request.get_json()
@@ -134,7 +134,7 @@ def saveBill(user):
 @user.route("/<user>/bills/<bill_id>", methods=["GET"])
 @jwt_required()
 def getOneBill(user, bill_id):
-    """obtener bill de un usuario
+    """get a bill from a user
     ---
     tags: 
         - User
@@ -144,12 +144,12 @@ def getOneBill(user, bill_id):
         in: path
         type: string
         required: true
-        description: username de la persona 
+        description: person's username
       - name: bill_id
         in: path
         type: string
         required: true
-        description: identificar del bill
+        description: bill's id
             
     definitions:
         VerBill:
@@ -168,7 +168,7 @@ def getOneBill(user, bill_id):
                 
     responses:
       200:
-        description: Bill del usuario
+        description: get a bill from a user
         schema:
           $ref: '#/definitions/VerBill'
     """
@@ -178,7 +178,7 @@ def getOneBill(user, bill_id):
 @user.route("/<user>/bills/<bill_id>", methods=["DELETE"])
 @jwt_required()
 def deleteOneBill(user, bill_id):
-    """Eliminar un bill del user
+    """Remove a bill from the user
     --- 
     tags: 
         - User
@@ -188,12 +188,12 @@ def deleteOneBill(user, bill_id):
         in: path
         type: string
         required: true
-        description: username de la persona 
+        description: person's username
       - name: bill_id
         in: path
         type: string
         required: true
-        description: identificar del bill
+        description: bill's id
         
     definitions:
         BillInfo:
@@ -208,7 +208,7 @@ def deleteOneBill(user, bill_id):
                 
     responses:
       200:
-        description: Bill eliminado 
+        description: bill removed
         
     """
     return get_bill_id_of_user(user, bill_id, request.method)
