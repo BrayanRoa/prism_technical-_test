@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from ...user.entity.user_entity import UserEntity
 from ...user.schema.user_schema import user_schema
 from flask_jwt_extended import create_access_token
+from sqlalchemy.exc import NoResultFound
 
 auth = Blueprint("auth", __name__)
 
@@ -47,5 +48,5 @@ def login():
         "login":True, 
         "access-token":"Bearer " + create_access_token(identity=result["email"])
       }
-    except Exception as e:
-      return jsonify({"error":e.args})
+    except NoResultFound as e:
+      return jsonify({"login":False, "message":"invalid username"})
