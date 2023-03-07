@@ -35,11 +35,10 @@ def get_all_bills_of_user(username):
 def save_bill_of_user(user, data):
     try:
         info_user = get_all_bills_of_user(user)
-        print(info_user)
         if "code" in info_user:
             return {"error":f"there is no person with username {user}"}, 404
         bill = bill_schema.load(data)
-        db.session.add(
+        new_bill = db.session.add(
             BillDTO(
                 type=bill["type"],
                 value=bill["value"],
@@ -49,12 +48,13 @@ def save_bill_of_user(user, data):
             )
         )
         db.session.commit()
+        info_bill = bill_schema.dump(new_bill)
         return {
-            "type":bill["type"],
-            "observation":bill["observation"],
-            "value":bill["value"],
+            "type":info_bill["type"],
+            "observation":info_bill["observation"],
+            "value":info_bill["value"],
             "user":user,
-            "id":info_user["id"],
+            "id":info_bill["id"],
             "date":date.today()
         }, 201
     except ValidationError as e:
