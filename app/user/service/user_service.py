@@ -38,17 +38,12 @@ def save_bill_of_user(user, data):
         if "code" in info_user:
             return {"error":f"there is no person with username {user}"}, 404
         bill = bill_schema.load(data)
-        new_bill = db.session.add(
-            BillDTO(
-                type=bill["type"],
-                value=bill["value"],
-                observation=bill["observation"],
-                date_bill=date.today(),
-                user_id=info_user["id"]
+        bill_dto = BillDTO(id=None,type=bill["type"],value=bill["value"],
+                observation=bill["observation"],date_bill=date.today(),user_id=info_user["id"]
             )
-        )
+        db.session.add(bill_dto)
         db.session.commit()
-        info_bill = bill_schema.dump(new_bill)
+        info_bill = bill_schema.dump(bill_dto)
         return {
             "type":info_bill["type"],
             "observation":info_bill["observation"],
